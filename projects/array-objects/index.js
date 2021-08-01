@@ -59,11 +59,11 @@ function reduce(array, fn, initial) {
    upperProps({ name: 'Сергей', lastName: 'Петров' }) вернет ['NAME', 'LASTNAME']
  */
 function upperProps(obj) {
-  const arr = [];
-  for (let prop in obj) {
+  const arr = Object.keys(obj).map((name) => name.toUpperCase());
+  /*for (let prop in obj) {
     prop = prop.toUpperCase();
     arr.push(prop);
-  }
+  }*/
   return arr;
 }
 
@@ -78,6 +78,13 @@ function upperProps(obj) {
    obj.foo = 2;
    console.log(obj.foo); // 4
  */
-function createProxy(obj) {}
+function createProxy(obj) {
+  return new Proxy(obj, {
+    set(obj, key, value) {
+      obj[key] = value ** 2;
+      return true;
+    },
+  });
+}
 
 export { forEach, map, reduce, upperProps, createProxy };
