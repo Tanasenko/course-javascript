@@ -57,7 +57,7 @@ function loadTowns() {
    isMatching('Moscow', 'Moscov') // false
  */
 function isMatching(full, chunk) {
-  full.toLowerCase().includes(chunk.toLowerCase());
+  return full.toLowerCase().includes(chunk.toLowerCase());
 }
 
 /* Блок с надписью "Загрузка" */
