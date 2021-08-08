@@ -96,11 +96,16 @@ function findError(where) {
  */
 function deleteTextNodes(where) {
   const a = where.childNodes;
-  for (let i = 0; i < a.length; i++) {
+  /*for (let i = 0; i < a.length; i++) {
     const allElem = a[i];
     if (allElem.nodeType === 3) {
       where.removeChild(allElem);
       i--;
+    }
+  }*/
+  for (const elem of a) {
+    if (elem.nodeType === 3) {
+      where.removeChild(elem);
     }
   }
   return where;
@@ -118,7 +123,7 @@ function deleteTextNodes(where) {
    должно быть преобразовано в <span><div><b></b></div><p></p></span>
  */
 function deleteTextNodesRecursive(where) {
-  const a = where.childNodes;
+  /*const a = where;
   for (let i = 0; i < a.length; i++) {
     const allElem = a[i];
     if (allElem.nodeType === 3) {
@@ -126,6 +131,14 @@ function deleteTextNodesRecursive(where) {
       i--;
     } else if (allElem.nodeType === 1) {
       deleteTextNodesRecursive(allElem);
+    }
+  }*/
+  const a = [...where.childNodes];
+  for (const elem of a) {
+    if (elem.nodeType === 3) {
+      where.removeChild(elem);
+    } else if (elem.nodeType === 1) {
+      deleteTextNodesRecursive(elem);
     }
   }
 }
@@ -151,20 +164,38 @@ function deleteTextNodesRecursive(where) {
    }
  */
 function collectDOMStat(root) {
-  /* const obj = {};
-  const a = root.childNodes;
-  for (let i = 0; i < a.length; i++) {
-    if (a[i].nodeType === 1) {
-      obj.tags = a[i];
-    }
-    if (a[i].nodeType === 3) {
-      obj.texts = a[i];
-    }
-    if (a[i].classList) {
-      obj.classes = a[i].classList;
+  const obj = {
+    tags: {},
+    classes: {},
+    texts: 0,
+  };
+
+  function scan(root) {
+    for (const child of root.childNodes) {
+      if (child.nodeType === 3) {
+        obj.texts++;
+      } else if (child.nodeType === 1) {
+        if (child.tagName in obj.tags) {
+          obj.tags[child.tagName]++;
+        } else {
+          obj.tags[child.tagName] = 1;
+        }
+
+        for (const className of child.classList) {
+          if (className in obj.classes) {
+            obj.classes[className]++;
+          } else {
+            obj.classes[className] = 1;
+          }
+        }
+        scan(child);
+      }
     }
   }
-  return obj;*/
+
+  scan(root);
+
+  return obj;
 }
 
 /*
