@@ -23,15 +23,15 @@ document.addEventListener('mousemove', (e) => {});
 
 export function createDiv() {
   const elem = document.createElement('div');
-  elem.style.className = 'draggable-div';
+  elem.classList.add('draggable-div');
   elem.style.backgroundColor = 'red';
+  elem.style.width = '200px';
+  elem.style.height = '200px';
+  elem.style.top = '0';
+  elem.style.left = '0';
   elem.setAttribute('draggable', 'true');
   elem.ondragstart;
-  homeworkContainer.appendChild(elem);
-  /*elem.offsetHeight = 20;
-  elem.offsetWidth = 20;
-  elem.offsetLeft = 50;
-  elem.offsetTop = 50;*/
+  return elem;
 }
 
 const addDivButton = homeworkContainer.querySelector('#addDiv');
