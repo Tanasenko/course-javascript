@@ -54,7 +54,7 @@ function getCookies() {
   return document.cookie
     .split('; ')
     .filter(Boolean)
-    .map((cookie) => cookie.match(/^([^=]+)=(.=)/))
+    .map((cookie) => cookie.match(/^([^=]+)=(.+)/))
     .reduce((obj, [, name, value]) => {
       obj.set(name, value);
 
@@ -68,8 +68,8 @@ filterNameInput.addEventListener('input', function () {
 });
 
 addButton.addEventListener('click', () => {
-  const name = encodeURIComponent(addNameInput.value.trim());
-  const value = encodeURIComponent(addValueInput.value.trim());
+  const name = addNameInput.value.trim();
+  const value = addValueInput.value.trim();
 
   if (!name) {
     return;
@@ -79,6 +79,8 @@ addButton.addEventListener('click', () => {
   cookiesMap.set(name, value);
 
   updateTable();
+  addNameInput.value = '';
+  addValueInput.value = '';
 });
 
 listTable.addEventListener('click', (e) => {
@@ -101,7 +103,7 @@ function updateTable() {
     if (
       filterValue &&
       !name.toLowerCase().includes(filterValue.toLowerCase()) &&
-      !value.toLowerCase().includes(filterValue.toLocaleLowerCase())
+      !value.toLowerCase().includes(filterValue.toLowerCase())
     ) {
       continue;
     }
@@ -129,6 +131,6 @@ function updateTable() {
     listTable.parentNode.classList.remove('hidden');
     listTable.append(fragment);
   } else {
-    listTable.parentNode.classList.addButton('hidden');
+    listTable.parentNode.classList.add('hidden');
   }
 }
