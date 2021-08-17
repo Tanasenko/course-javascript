@@ -86,7 +86,7 @@ listTable.addEventListener('click', (e) => {
 
   if (role === 'remove-cookie') {
     cookiesMap.delete(cookieName);
-    document.cookie = `${cookieName}=deleted; max-age =0`;
+    document.cookie = `${cookieName}=deleted; max-age=0`;
     updateTable();
   }
 });
@@ -101,7 +101,7 @@ function updateTable() {
     if (
       filterValue &&
       !name.toLowerCase().includes(filterValue.toLowerCase()) &&
-      !value.toLowerCase().includes(filterValue.toLowerCase())
+      !value.toLowerCase().includes(filterValue.toLocaleLowerCase())
     ) {
       continue;
     }
@@ -117,8 +117,8 @@ function updateTable() {
     removeButton.dataset.role = 'remove-cookie';
     removeButton.dataset.cookieName = name;
     removeButton.textContent = 'Удалить';
-    nameTD.textContent = 'name';
-    valueTD.textContent = 'value';
+    nameTD.textContent = name;
+    valueTD.textContent = value;
     tr.append(nameTD, valueTD, removeTD);
     removeTD.append(removeButton);
 
@@ -129,6 +129,6 @@ function updateTable() {
     listTable.parentNode.classList.remove('hidden');
     listTable.append(fragment);
   } else {
-    listTable.parentNode.classList.add('hidden');
+    listTable.parentNode.classList.addButton('hidden');
   }
 }
